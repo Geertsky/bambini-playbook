@@ -59,4 +59,3 @@ installdisk:
           mountpoint: /
           mount_opts: defaults
           mount_order: 10
-
