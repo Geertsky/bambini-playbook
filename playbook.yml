@@ -1,10 +1,16 @@
 ---
+
 - name: Bambini
   hosts: installer-uefi,installer-bios
-  environment:
-    PATH: /local/conda/envs/bambini-python/sbin:/local/conda/envs/bambini-python/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-    CONDA_PREFIX: /local/conda/envs/bambini-python
   tasks:
     - name: Import role bambini
       ansible.builtin.import_role:
         name: geertsky.bambini.ansible_bambini
+      environment:
+        PATH: "/local/conda/envs/bambini-python/sbin:/local/conda/envs/bambini-python/bin:{{ ansible_env.PATH }}"
+        CONDA_PREFIX: "/local/conda/envs/bambini-python"
+
+    - name: Continue install
+      when: continue_install is defined and continue_install
+      ansible.builtin.include_tasks:
+        file: continue_install.yml
